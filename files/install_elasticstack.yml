@@ -1,0 +1,27 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Install updates (Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install updates (CentOS)
+    dnf:
+      update_cache: yes
+      update_only: yes
+    when: ansible_distribution == "CentOS"
+
+- hosts: ubuntu_elasticstack
+  become: true
+  roles:
+    - ubuntu_elasticstack
+
+- hosts: centos_elasticstack
+  become: true
+  roles:
+    - centos_elasticstack 
